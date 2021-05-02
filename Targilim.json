@@ -1,0 +1,32 @@
+{
+	"targilim": [
+		{
+			"var_a": 5,
+			"action": "+",
+			"var_b": 2,
+			"expected results": 7
+		},
+		{
+			"var_a": 44,
+			"action": "-",
+			"var_b": 2,
+			"expected results": 42
+		},
+		{
+			"var_a": 2,
+			"action": "*",
+			"var_b": 2,
+			"expected results": 4
+		},
+		{
+			"var_a": 2,
+			"action_1": "*",
+			"var_b": 22,
+			"action_2": "+",
+			"var_c": 8,
+			"action_3": "/",
+			"var_d": 2,
+			"expected results": 26
+		}
+	]
+}
