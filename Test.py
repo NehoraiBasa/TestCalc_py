@@ -69,6 +69,13 @@ class TestsCalculator(unittest.TestCase):
             self.Equalcombination = equal
 
 
+
+    def GetTargil(self, arrTargil):
+        arr = self.TargilArray(arrTargil)
+        arr_targil = self.Targil(arr)
+        return arr_targil
+
+
     def GetResult(self):
         #this func get the res from the win calc
         displaytext = self.driver.find_element_by_accessibility_id("CalculatorResults").text
@@ -86,6 +93,7 @@ class TestsCalculator(unittest.TestCase):
             command.append(d[i])
         return command
 
+
     def TargilArray(self,arrTargil):
         # this func  get array and check if i is int and make 44 to 4,4 , if not and i is str append i
         arr = []
@@ -95,6 +103,7 @@ class TestsCalculator(unittest.TestCase):
             elif isinstance(i, str):
                 arr.append(i)
         return arr
+
 
     def Targil(self,targilarr):
         # this func take the array targilarr =[[2,3],"+",[3],"="] to new array arr_targil => [2,3,'+',3,'=']
@@ -107,12 +116,6 @@ class TestsCalculator(unittest.TestCase):
                     arr_targil.append(j)
         targil = self.CommandCalc(arr_targil)
         return targil
-
-
-    def GetTargil(self, arrTargil):
-        arr = self.TargilArray(arrTargil)
-        arr_targil = self.Targil(arr)
-        return arr_targil
 
 
     def ExerciseType(self, arr):
@@ -133,6 +136,8 @@ class TestsCalculator(unittest.TestCase):
             for i in targil:
                 self.driver.find_element_by_name(i).click()
         return self.GetResult()
+
+
 
 
 class Testes(TestsCalculator):
@@ -166,6 +171,7 @@ class Testes(TestsCalculator):
         equal = self.Equalcombination
         self.RunCalc(targil)
         self.assertEqual(self.GetResult(), equal)
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(Testes)
