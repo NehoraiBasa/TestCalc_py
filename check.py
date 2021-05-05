@@ -19,19 +19,36 @@ class TestsCalculator(unittest.TestCase):
 
         with open('Targilim.json') as f:
             data = json.load(f)
-            targilim_json_arry = json.dumps(data['targilim'])
-            targilim_array = json.loads(targilim_json_arry)
-            for i in targilim_array:
+            jsonarry = json.dumps(data['targilim'])
+            array = json.loads(jsonarry)
+            for i in array:
+                # cahnge name
                 # targil is str obj
                 targil = json.dumps(i)
                 # convert targil to a dict obj
-                targil_todict = ast.literal_eval(targil)
+                todict = ast.literal_eval(targil)
                 # get dict val
-                targil_dict_values = list(targil_todict.values())
-                equal = str(targil_dict_values[-1])
-                targil_dict_values = targil_dict_values[:-1]
-                targil_dict_values.append('=')
-                self.TypeTargil(targil_dict_values,equal)
+                dictval = list(todict.values())
+                equal = str(dictval[-1])
+                dictval = dictval[:-1]
+                dictval.append('=')
+                get_targil = self.GetTargil(dictval)
+                exercise_type = self.ExerciseType(get_targil)
+                if exercise_type == "Plus":
+                    self.plus.append(get_targil)
+                    self.Equalplus = equal
+                elif exercise_type == "Minus":
+                    self.minus.append(get_targil)
+                    self.Equalminus = equal
+                elif exercise_type == "Multiply by":
+                    self.multiply.append(get_targil)
+                    self.Equalmultiply = equal
+                elif exercise_type == "Divide by":
+                    self.division.append(get_targil)
+                    self.Equaldivision = equal
+                elif exercise_type == "Combiation":
+                    self.combination.append(get_targil)
+                    self.Equalcombination = equal
 
 
     @classmethod
@@ -48,71 +65,48 @@ class TestsCalculator(unittest.TestCase):
         self.driver.quit()
 
 
-    def TypeTargil(self,targil_dict_values,equal):
-        # this func puts each targil into its own arr
-        get_targil = self.GetTargil(targil_dict_values)
-        exercise_type = self.ExerciseType(get_targil)
-        if exercise_type == "Plus":
-            self.plus.append(get_targil)
-            self.Equalplus = equal
-        elif exercise_type == "Minus":
-            self.minus.append(get_targil)
-            self.Equalminus = equal
-        elif exercise_type == "Multiply by":
-            self.multiply.append(get_targil)
-            self.Equalmultiply = equal
-        elif exercise_type == "Divide by":
-            self.division.append(get_targil)
-            self.Equaldivision = equal
-        elif exercise_type == "Combiation":
-            self.combination.append(get_targil)
-            self.Equalcombination = equal
-
 
     def GetResult(self):
-        #this func get the res from the win calc
+        #this fanc get the res from the win calc
         displaytext = self.driver.find_element_by_accessibility_id("CalculatorResults").text
         displaytext = displaytext.strip("Display is ")
         return displaytext
 
 
+
     def CommandCalc(self, targil):
-        # this func convert num/action to a word - command calc
+        # this fanc convert num/action to a word - command calc
         command = []
         d = {0: 'Zero', 1: 'One', 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five',
              6: 'Six', 7: 'Seven', 8: 'Eight', 9: 'Nine', '+': 'Plus', '-': 'Minus', '*': 'Multiply by',
              '/': 'Divide by', '=': 'Equals'}
         for i in targil:
             command.append(d[i])
-        return command
+        return (command)
 
-    def TargilArray(self,arrTargil):
-        # this func  get array and check if i is int and make 44 to 4,4 , if not and i is str append i
+
+
+    def GetTargil(self, arrTargil):
+        # this fanc get array and do 2 action
+        # 1 check if i is int and make 44 to 4,4 , if not and i is str append i
         arr = []
         for i in arrTargil:
             if isinstance(i, int):
                 arr.append(list(map(int, str(i))))
             elif isinstance(i, str):
                 arr.append(i)
-        return arr
-
-    def Targil(self,targilarr):
-        # this func take the array targilarr =[[2,3],"+",[3],"="] to new array arr_targil => [2,3,'+',3,'=']
         arr_targil = []
-        for i in targilarr:
+        # לחלק ל2 פונק
+        # 2 take the array arr =[[2,3],"+",[3],"="] to new array targil => [2,3,'+',3,'=']
+        for i in arr:
             if (type(i) != list):
                 arr_targil.append(i)
             else:
                 for j in i:
                     arr_targil.append(j)
+
         targil = self.CommandCalc(arr_targil)
-        return targil
-
-
-    def GetTargil(self, arrTargil):
-        arr = self.TargilArray(arrTargil)
-        arr_targil = self.Targil(arr)
-        return arr_targil
+        return (targil)
 
 
     def ExerciseType(self, arr):
@@ -124,7 +118,7 @@ class TestsCalculator(unittest.TestCase):
                 if(a > 1):
                     return ("Combiation")
                 action = i
-        return action
+        return (action)
 
 
     def RunCalc(self, arrTargil):
