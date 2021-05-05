@@ -19,6 +19,12 @@
 			"expected results": 4
 		},
 		{
+			"var_a": 20,
+			"action": "/",
+			"var_b": 2,
+			"expected results": 10
+		},
+		{
 			"var_a": 2,
 			"action_1": "*",
 			"var_b": 22,
